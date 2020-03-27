@@ -3,18 +3,18 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: ysfaran's Blog
 subtitle: ""
 description: ""
 keywords:
-author: John Doe
+author: Yusuf Aran
 language: en
 timezone: ""
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
-root: /
+url: https://ysfaran.github.io/blog
+root: /blog/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -44,8 +44,15 @@ render_drafts: false
 post_asset_folder: false
 relative_link: false
 future: true
+
+prism_plugin:
+  mode: "preprocess" # realtime/preprocess
+  theme: "atom-dark"
+  line_number: false # default false
+  # custom_css: 'path/to/your/custom.css'     # optional
+
 highlight:
-  enable: true
+  enable: false
   line_number: true
   auto_detect: false
   tab_replace: ""
@@ -98,4 +105,6 @@ theme: gradiant
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: ""
+  type: git
+  repo: https://github.com/ysfaran/blog
+  branch: blog:gh-pages

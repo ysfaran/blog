@@ -3,27 +3,26 @@
 menu:
   Home: /
   🗂️Archives: /archives
-  Hexo: https://hexo.io/
 
 # The icons at the bottom of the page.
 # The class value comes from font awesome.
-#  Example: if the html code for the icon is <i class="fas fa-home"></i> the value for class will be fas fa-home. 
+#  Example: if the html code for the icon is <i class="fas fa-home"></i> the value for class will be fas fa-home.
 footer_icons:
-  'Hexo.io':
-    url: 'https://hexo.io/'
-    class: 'fas fa-home'
-  '@hexojs':
-    url: 'https://twitter.com/hexojs'
-    class: 'fab fa-twitter'
-  'Report issue':
-    url: 'https://github.com/RandomAdversary/Gradient/issues'
-    class: 'fas fa-bug'
+  "my GitHub":
+    url: "https://github.com/ysfaran/"
+    class: "fab fa-github"
+  "my twitter":
+    url: "https://twitter.com/ysfaran15"
+    class: "fab fa-twitter"
+  "contact me":
+    url: "mailto:yusuf.aran@outlook.de"
+    class: "fas fa-envelope"
 
 # This is reserved for meta tags.
 # List of supported items:
 # 1. Twitter card image. See: https://developer.twitter.com/en/docs/tweets/optimize-with-cards/overview/summary.html
 # 2. Open graph image. See: http://ogp.me/
-meta: 
+meta:
   twitter:
     featured_image: img/default.jpg
   open_graph: #Facebook
@@ -33,15 +32,12 @@ meta:
 sidebar:
   twitter:
     enabled: true
-    username: 'hexojs'
+    username: "ysfaran15"
     height: 800
-  tldr: 
-    - block1: 
-      title: 'TL;DR'
-      content: 'Yet another hexo theme.'
-    - block2: 
-      title: 'TL;DR 2'
-      content: 'No, not another one :/'
+  tldr:
+    - block1:
+      title: "I'm Yusuf Aran,"
+      content: "not more than a passionate developer. See the footer for information about my person or to contact me!"
 
 # If featured_image is missing from a post, this one will be used.
 featured_image: ./img/default.jpg
