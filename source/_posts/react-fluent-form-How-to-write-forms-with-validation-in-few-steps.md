@@ -75,7 +75,7 @@ Okay, so we just specified how our registration form will look like:
 - It will have two input fields: Username and Password
   - Username will have the default value `user0`
   - Password will be an empty string
-  - It will also trigger validation for Password only when a submit has been initiated (there are also different validation triggers like `validateOnChange`)
+  - It will also trigger validation for Password only when a submit has been initiated. There are more validation triggers available but the default is `validateAfterTouchOnChange`, which means once the field lost focus it will be validated after each change.
   - `field.text()` and `field.password()` actually represent the options for the `type` property of the HTML input element
 - We added validation for each field using `yup` schemes. Those schemes perfectly fit into `react-fluent-form` since `yup` also provides a _fluent_ API!
   - Username is a required string and must have at least length of 4 characters
