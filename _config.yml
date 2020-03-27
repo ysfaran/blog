@@ -107,4 +107,4 @@ theme: gradiant
 deploy:
   type: git
   repo: https://github.com/ysfaran/blog
-  branch: blog:gh-pages
+  branch: gh-pages
