@@ -108,4 +108,6 @@ deploy:
   type: git
   repo: https://github.com/ysfaran/blog.git
   branch: gh-pages
+  name: Yusuf Aran
+  email: yusuf.aran@outlook.de
   token: $GH_TOKEN
