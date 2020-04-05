@@ -5,7 +5,6 @@ script:
 deploy:
   provider: script
   skip_cleanup: true
-  github-token: $GH_TOKEN
   keep-history: true
   script:
     - hexo deploy
