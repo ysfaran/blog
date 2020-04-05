@@ -106,5 +106,5 @@ theme: gradiant
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/ysfaran/blog
+  repo: https://github.com/ysfaran/blog.git
   branch: gh-pages
