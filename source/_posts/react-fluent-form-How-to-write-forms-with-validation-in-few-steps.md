@@ -147,8 +147,8 @@ And that's it! But wait we have two new properties here:
   },
 }
 ```
-- **`handleSubmit`**: is a function that returns a callback for the form submission. Optionally it allows us to pass a `success` and `failure` callback, which are called dependent on the validation result of the whole form. If at least one field is invalid, `failure` will be called, otherwise `success`.
 
+- **`handleSubmit`**: is a function that returns a callback for the form submission. Optionally it allows us to pass a `success` and `failure` callback, which are called dependent on the validation result of the whole form. If at least one field is invalid, `failure` will be called, otherwise `success`.
 
 ### 4. Displaying feedback messages
 
@@ -175,6 +175,7 @@ const RegistrationForm = () => {
   );
 }
 ```
+
 If the feedback process is more complex (e.g. you want to show if a field is valid, not just if it's invalid) you can take advantage of information stored in `validity` and `touched`.
 I'm sure you will find a good solution for your needs!
 
@@ -223,6 +224,7 @@ But, oh boy, I would not like to write
 ```ts
 field.raw<DateValue>(null).withValueProp("selected")
 ```
+
 each time I need a datepicker.
 
 A simple approach is to wrap it in a function:
@@ -256,6 +258,7 @@ addField("datePicker", (initialValue: DateValue = null) =>
   field.raw(initialValue).withValueProp("selected")
 );
 ```
+
 and then you can just use `field.datePicker()` anywhere you want!
 
 But wait, there are few things to note down here:
@@ -279,7 +282,7 @@ For customization of configurable/complex fields please have a look at [official
 ### Customizing validation
 
 Equally to form state handling, form validation handling is really important topic on modern websites. So it's important to have a flexible and easy to use validation approach.
- 
+
 That's why `react-fluent-form` makes validation customizable.
 Instead of a `yup` schema you can also provide a function which receives:
 

@@ -1,0 +1,11 @@
+language: node_js
+node_js: lts/*
+script:
+  - hexo generate
+deploy:
+  provider: script
+  skip_cleanup: true
+  script:
+    - hexo deploy
+  on:
+    branch: master
