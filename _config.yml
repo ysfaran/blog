@@ -108,7 +108,7 @@ deploy:
   type: git
   repo:
     github:
-      repo: https://github.com/ysfaran/blog.git
+      url: https://github.com/ysfaran/blog.git
       branch: gh-pages
       token: $GH_TOKEN
   name: Yusuf Aran
