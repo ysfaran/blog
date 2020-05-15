@@ -1,0 +1,496 @@
+<html>
+  <!-- Head tag -->
+  <head>
+  <meta charset="UTF-8" />
+
+  
+  <title>
+    react-fluent-form: How to write forms with validation in few steps | ysfaran&#39;s blog
+  </title>
+  
+
+  <meta name="description" content="" />
+  <meta name="author" content="Yusuf Aran" />
+  <meta property="og:title" content="react-fluent-form: How to write forms with validation in few steps" />
+  <meta
+    property="og:description"
+    content=""
+  />
+  <meta property="og:site_name" content="ysfaran&#39;s blog" />
+  <meta
+    property="og:image"
+    content="https://ysfaran.github.io/blog/img/default.jpg"
+  />
+  <meta name="twitter:card" content="summary" />
+  <meta
+    name="twitter:description"
+    content=""
+  />
+  <meta name="twitter:title" content="react-fluent-form: How to write forms with validation in few steps" />
+
+  <meta
+    name="twitter:image"
+    content="https://ysfaran.github.io/blog/img/default.jpg"
+  />
+
+  <script src="https://www.amcharts.com/lib/4/core.js"></script>
+  <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+  <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    crossorigin="anonymous"
+  />
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+    integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz"
+    crossorigin="anonymous"
+  />
+  
+<link rel="stylesheet" href="/blog/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="stylesheet" href="/blog/css/prism-atom-dark.css" type="text/css"></head>
+
+  <body>
+    <!-- Menu -->
+    <nav id="navbar" class="navbar fixed-top navbar-expand-lg navbar-dark page-navbar gradient">
+  <div class="container">
+    <a class="navbar-brand logo" href="https://ysfaran.github.io/blog">
+      ysfaran&#39;s blog</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item item">
+          
+        <li class="nav-item item">
+          <a class="nav-link" href="/blog/">
+            Home</a>
+        </li>
+        
+        <li class="nav-item item">
+          <a class="nav-link" href="/blog/archives">
+            🗂️Archives</a>
+        </li>
+        
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <main class="page main-page">
+      <div class="container blogPost">
+  <div class="row">
+    <div class="col-sm-9 px-md-5">
+      <div
+        class="thumb"
+        style="background-image: url(/blog/images/featured-images/react-fluent-form-logo.svg);"
+      ></div>
+      <h1 class="blog-post-title">
+        react-fluent-form: How to write forms with validation in few steps
+      </h1>
+      <p class="meta">
+        <i class="far fa-clock"></i>
+        2020-03-26 
+      </p>
+      <!-- Content -->
+      <h2 id="Background"><a href="#Background" class="headerlink" title="Background"></a>Background</h2><p>Maybe you know how complicated react state handling for forms - including validation - can be and you already researched for a library that fits to your use case. To make things more complicated we often implement <strong>custom fields</strong> or use third party libraries like <a href="https://www.npmjs.com/package/react-select" target="_blank" rel="noopener">react-select</a>.</p>
+<p>I was not satisfied (at least not 100%) with any solution on npm so I developed a form library myself:</p>
+<div class="github-card" data-github="ysfaran/react-fluent-form" data-width="400" data-height="" data-theme="default"></div>
+<script src="//cdn.jsdelivr.net/github-cards/latest/widget.js"></script>
+
+<p>&emsp;</p>
+<p><strong><em>Why are you not satisfied with existing solutions?</em></strong></p>
+<blockquote>
+<p><strong>DISCLAIMER:</strong><br>Of course every library has its up- and downsides (also mine..) and there are for sure great form libraries out there! But I just want to highlight the topics that annoyed me personally.</p>
+</blockquote>
+<ul>
+<li>The libraries I found and also used in some of my projects were <strong>not intuitive</strong> enough. I’m a simple guy who wants a simple API!</li>
+<li>Some libraries came with a lot of <strong>boilerplate code</strong>.</li>
+<li>I used <strong>a lot of custom fields</strong> and all libraries forced me to something I didn’t like (e.g. wrap my custom field in another component) or didn’t support customization in the level I would like it.</li>
+<li>Many libraries had <strong>no easy-to-use validation</strong> approach.</li>
+<li><strong>Missing features</strong> like form arrays.</li>
+</ul>
+<p><strong><em>Why is react-fluent-form satisfying your needs?</em></strong></p>
+<ul>
+<li>It (hopefully) provides a <strong>more intuitive fluent API</strong>.</li>
+<li>It comes with a <strong>easy-to-use validation</strong> approach using <a href="https://www.npmjs.com/package/yup" target="_blank" rel="noopener">yup</a> schemes. If you don’t like <code>yup</code>, you can also write your <strong>custom validator</strong>!</li>
+<li>Customization is made fairly easy, because you can add as many <strong>reusable custom fields</strong> as required, <strong>without touching any component</strong>. </li>
+<li>It <strong>reduces boilerplate code</strong> by enabling a simple API.</li>
+</ul>
+<h2 id="Stop-talking-Let’s-code"><a href="#Stop-talking-Let’s-code" class="headerlink" title="Stop talking. Let’s code!"></a>Stop talking. Let’s code!</h2><p>Talking is good, showing is better! The next section will go step by step through the creation proccess of a form using <code>react-fluent-form</code>.</p>
+<h3 id="1-Configuring-the-form"><a href="#1-Configuring-the-form" class="headerlink" title="1. Configuring the form"></a>1. Configuring the form</h3><p>The heart of <code>react-fluent-form</code> is the form config since it’s the part of it that actually provides the <em>fluent</em> API:</p>
+<blockquote>
+<p><strong>NOTE:</strong><br>All code snippets will be in typescript, because the library is also written in typescript!</p>
+</blockquote>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">import</span> <span class="token operator">*</span> as yup <span class="token keyword">from</span> <span class="token string">"yup"</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> createForm<span class="token punctuation">,</span> field <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react-fluent-form"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">RegistrationForm</span> <span class="token punctuation">{</span>
+  username<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  password<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> formConfig <span class="token operator">=</span> createForm<span class="token operator">&lt;</span>RegistrationForm<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  username<span class="token punctuation">:</span> field<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token string">"user0"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  password<span class="token punctuation">:</span> field<span class="token punctuation">.</span><span class="token function">password</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">validateOnSubmitOnly</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withValidation</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  username<span class="token punctuation">:</span> yup<span class="token punctuation">.</span><span class="token keyword">string</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">required</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  password<span class="token punctuation">:</span> yup<span class="token punctuation">.</span><span class="token keyword">string</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">required</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p><strong>STOP! Try to understand the code without ever seeing it before!</strong></p>
+<p>Okay, so we just specified how our registration form will look like:</p>
+<ul>
+<li>It will have two input fields: Username and Password<ul>
+<li>Username will have the default value <code>user0</code></li>
+<li>Password will be an empty string</li>
+<li>It will also trigger validation for Password only when a submit has been initiated. There are more validation triggers available but the default is <code>validateAfterTouchOnChange</code>, which means once the field lost focus it will be validated after each change.</li>
+<li><code>field.text()</code> and <code>field.password()</code> actually represent the options for the <code>type</code> property of the HTML input element</li>
+</ul>
+</li>
+<li>We added validation for each field using <code>yup</code> schemes. Those schemes perfectly fit into <code>react-fluent-form</code> since <code>yup</code> also provides a <em>fluent</em> API!<ul>
+<li>Username is a required string and must have at least length of 4 characters</li>
+<li>Password is required string and must have at least length of 8 characters</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-Initializing-the-form"><a href="#2-Initializing-the-form" class="headerlink" title="2. Initializing the form"></a>2. Initializing the form</h3><p>Cool, we configured our form but that was just plain typescript, no react involved. <code>react-fluent-form</code> comes with a set of react hooks, but the most important one is <code>useFluentForm</code>:</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">const</span> RegistrationForm <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// We just used the config we created before and that's all we need!</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> values<span class="token punctuation">,</span> touched<span class="token punctuation">,</span> validity<span class="token punctuation">,</span> errors <span class="token comment" spellcheck="true">/* and more */</span> <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">useFluentForm</span><span class="token punctuation">(</span>formConfig<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">// ...</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Among other things <code>useFluentForm</code> returns:</p>
+<ul>
+<li><strong><code>values</code></strong>: it’s an object that contains the current values entered to the form. In this example it would look like <code>{username: &quot;user0&quot;, password: &quot;&quot;}</code> in the beginning.</li>
+<li><strong><code>touched</code></strong>: it’s an object that stores information about the touched state of each field. A field is <em>touched</em> once it had focus and then lost it, so from a technical perspective if the <code>onBlur</code> event of an input field was triggert. An example object could be <code>{username: true, password: undefined}</code> (<code>undefined</code> means it was not touched yet).</li>
+<li><strong><code>validity</code></strong>: it’s an object that stores information about the validation state of each field. It could look like <code>{username: false, password: undefined}</code> (<code>undefined</code> means it was not validated yet).</li>
+<li><strong><code>errors</code></strong>: it’s an object that contains the current errors of each field in the form. In case of an error the evaluation of <code>yup</code> schemes will result in a <code>string[]</code> type, so the errors object could look like <code>{username: [&quot;username is a required field&quot;], password: undefined }</code> (<code>undefined</code> means the field was not validated yet or that it’s valid).</li>
+</ul>
+<h3 id="3-Rendering-the-form"><a href="#3-Rendering-the-form" class="headerlink" title="3. Rendering the form"></a>3. Rendering the form</h3><p>We set up all logic, let’s start rendering our form now:</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">function</span> <span class="token function">RegistrationForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> values<span class="token punctuation">,</span> fields<span class="token punctuation">,</span> errors<span class="token punctuation">,</span> handleSubmit <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">useFluentForm</span><span class="token punctuation">(</span>formConfig<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> handleSubmitSuccess <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>values<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> handleSubmitFailure <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>errors<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">onSubmit</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token function">handleSubmit</span><span class="token punctuation">(</span>handleSubmitSuccess<span class="token punctuation">,</span> handleSubmitFailure<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span><span class="token punctuation">></span></span>
+        Username<span class="token operator">*</span><span class="token punctuation">:</span>
+        <span class="token operator">&lt;</span>input <span class="token punctuation">{</span><span class="token operator">...</span>fields<span class="token punctuation">.</span>username<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span><span class="token punctuation">></span></span>
+        Password<span class="token operator">*</span><span class="token punctuation">:</span>
+        <span class="token operator">&lt;</span>input <span class="token punctuation">{</span><span class="token operator">...</span>fields<span class="token punctuation">.</span>password<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Submit<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>And that’s it! But wait we have two new properties here:</p>
+<ul>
+<li><p><strong><code>fields</code></strong>: is an object that contains the props for the to render component. As you might remember <code>react-fluent-form</code> exports a <code>field</code> variable that allowed us to specify the type of the input field (e.g. <code>field.password()</code>). It supports every reasonable HTML input type like checkboxes or radio buttons and also the HTML elements <code>textarea</code> and <code>select</code>. So in our example <code>fields</code> would have following type:</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token punctuation">{</span>
+username<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  type<span class="token punctuation">:</span> <span class="token string">"text"</span><span class="token punctuation">;</span>
+  value<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  onChange<span class="token punctuation">:</span> <span class="token punctuation">(</span>e<span class="token punctuation">:</span> ChangeEvent<span class="token operator">&lt;</span>HTMLInputElement<span class="token operator">></span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+  onBlur<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
+password<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  type<span class="token punctuation">:</span> <span class="token string">"password"</span><span class="token punctuation">;</span>
+  value<span class="token punctuation">:</span> <span class="token keyword">string</span><span class="token punctuation">;</span>
+  onChange<span class="token punctuation">:</span> <span class="token punctuation">(</span>e<span class="token punctuation">:</span> ChangeEvent<span class="token operator">&lt;</span>HTMLInputElement<span class="token operator">></span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+  onBlur<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span></code></pre>
+</li>
+<li><p><strong><code>handleSubmit</code></strong>: is a function that returns a callback for the form submission. Optionally it allows us to pass a <code>success</code> and <code>failure</code> callback, which are called dependent on the validation result of the whole form. If at least one field is invalid, <code>failure</code> will be called, otherwise <code>success</code>.</p>
+</li>
+</ul>
+<h3 id="4-Displaying-feedback-messages"><a href="#4-Displaying-feedback-messages" class="headerlink" title="4. Displaying feedback messages"></a>4. Displaying feedback messages</h3><p>This is actually not mandatory but it surly improves UX! For simple error displays you can just add a check on the errors object and display it if there is one:</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">const</span> RegistrationForm <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+ <span class="token comment" spellcheck="true">//...</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">onSubmit</span><span class="token script language-javascript"><span class="token punctuation">=</span><span class="token punctuation">{</span><span class="token function">handleSubmit</span><span class="token punctuation">(</span>handleSubmitSuccess<span class="token punctuation">,</span> handleSubmitFailure<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span><span class="token punctuation">></span></span>
+        Username<span class="token operator">*</span><span class="token punctuation">:</span>
+        <span class="token operator">&lt;</span>input <span class="token punctuation">{</span><span class="token operator">...</span>fields<span class="token punctuation">.</span>username<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
+        <span class="token punctuation">{</span>errors<span class="token punctuation">.</span>username <span class="token operator">&amp;&amp;</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span> <span class="token punctuation">{</span>errors<span class="token punctuation">.</span>username<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">}</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><span class="token punctuation">}</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span><span class="token punctuation">></span></span>
+        Password<span class="token operator">*</span><span class="token punctuation">:</span>
+        <span class="token operator">&lt;</span>input <span class="token punctuation">{</span><span class="token operator">...</span>fields<span class="token punctuation">.</span>password<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">></span>
+        <span class="token punctuation">{</span>errors<span class="token punctuation">.</span>password <span class="token operator">&amp;&amp;</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span> <span class="token punctuation">{</span>errors<span class="token punctuation">.</span>password<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">}</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><span class="token punctuation">}</span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>Submit<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>If the feedback process is more complex (e.g. you want to show if a field is valid, not just if it’s invalid) you can take advantage of information stored in <code>validity</code> and <code>touched</code>.<br>I’m sure you will find a good solution for your needs!</p>
+<h2 id="Customization"><a href="#Customization" class="headerlink" title="Customization"></a>Customization</h2><p>So we talked a lot about a very simple form, but <strong>until here I would just hate my own library</strong>. <em>Why?</em> Because every project is different and every application has different requirements. It’s cool and very useful that standard HTML elements are supported, but when did you use a standard HTML <code>select</code> element or an standard HTML datepicker the last time? I mean they are very hard to customize (sometimes it’s not even possible) and they don’t support features mandatory for professional UX.</p>
+<p>Okay, I calmed down. Let’s focus on the code again!</p>
+<h3 id="Customizing-fields"><a href="#Customizing-fields" class="headerlink" title="Customizing fields"></a>Customizing fields</h3><p>For simple components like <a href="https://www.npmjs.com/package/react-datepicker" target="_blank" rel="noopener"><code>react-datepicker</code></a> <code>react-fluent-form</code> provides <code>field.raw()</code>.</p>
+<p><strong><em>What means simple component in this context?</em></strong></p>
+<ul>
+<li>it has <code>value</code>-like and a <code>onChange</code>-like prop</li>
+<li><code>value</code> has the same type as the first parameter of <code>onChange</code> handler</li>
+<li>it optionally has a <code>onBlur</code>-like prop to indicate when the field is touched</li>
+</ul>
+<p>*-like means it must not have the same name, but the same type. E.g. the <code>value</code> prop in <code>react-datepicker</code> is called <code>selected</code>.<br>For raw fields it’s required to pass an initial value, otherwise it will be undefined:</p>
+<pre class=" language-jsx"><code class="language-jsx">type DateValue <span class="token operator">=</span> Date <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> formConfig <span class="token operator">=</span> <span class="token function">createForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  dateOfBirth<span class="token punctuation">:</span> field<span class="token punctuation">.</span>raw<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>DateValue</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withValueProp</span><span class="token punctuation">(</span><span class="token string">"selected"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>The type of <code>fields</code> object would look like this:</p>
+<pre class=" language-ts"><code class="language-ts">type FieldsType <span class="token operator">=</span> <span class="token punctuation">{</span>
+  dateOfBirth<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    selected<span class="token punctuation">:</span> Date <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    onChange<span class="token punctuation">:</span> <span class="token punctuation">(</span>newValue<span class="token punctuation">:</span> Date <span class="token operator">|</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">void</span><span class="token punctuation">;</span>
+    onBlur<span class="token punctuation">:</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token keyword">void</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// will just set the "touched" state to true</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>On default <code>field.raw</code> will be mapped to properties <code>value</code>, <code>onChange</code> and <code>onBlur</code>. Names of these properties can easily be changed using <code>withValueProp</code> (as in the example), <code>withOnChangeProp</code> and <code>withOnBlurProp</code>.<br>But, oh boy, I would not like to write</p>
+<pre class=" language-ts"><code class="language-ts">field<span class="token punctuation">.</span>raw<span class="token operator">&lt;</span>DateValue<span class="token operator">></span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withValueProp</span><span class="token punctuation">(</span><span class="token string">"selected"</span><span class="token punctuation">)</span></code></pre>
+<p>each time I need a datepicker.</p>
+<p>A simple approach is to wrap it in a function:</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">const</span> datePicker <span class="token operator">=</span> <span class="token punctuation">(</span>initialValue<span class="token punctuation">:</span> DateValue <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> field<span class="token punctuation">.</span>raw<span class="token operator">&lt;</span>DateValue<span class="token operator">></span><span class="token punctuation">(</span>initialValue<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withValueProp</span><span class="token punctuation">(</span><span class="token string">"selected"</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> formConfig <span class="token operator">=</span> <span class="token function">createForm</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  dateOfBirth<span class="token punctuation">:</span> <span class="token function">datePicker</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>But to me that looks kind of odd if put next to other fields:</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">const</span> formConfig <span class="token operator">=</span> createForm<span class="token operator">&lt;</span>RegistrationForm<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  username<span class="token punctuation">:</span> field<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token string">"user0"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  dateOfBirth<span class="token punctuation">:</span> <span class="token function">datePicker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  password<span class="token punctuation">:</span> field<span class="token punctuation">.</span><span class="token function">password</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">validateOnSubmitOnly</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>Ideally I would like to have <code>field.datePicker()</code> so it fits perfectly to the rest of the library. For this purpose <code>react-fluent-form</code> exports a utility function <code>addField</code>:</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> addField<span class="token punctuation">,</span> RawField<span class="token punctuation">,</span> field <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react-fluent-form"</span><span class="token punctuation">;</span>
+
+<span class="token function">addField</span><span class="token punctuation">(</span><span class="token string">"datePicker"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>initialValue<span class="token punctuation">:</span> DateValue <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span>
+  field<span class="token punctuation">.</span><span class="token function">raw</span><span class="token punctuation">(</span>initialValue<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withValueProp</span><span class="token punctuation">(</span><span class="token string">"selected"</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>and then you can just use <code>field.datePicker()</code> anywhere you want!</p>
+<p>But wait, there are few things to note down here:</p>
+<ul>
+<li><code>addField</code> needs to be called in a top level file, which means <code>addField</code> statements need to be executed before e.g. <code>field.datePicker()</code> is used somewhere.</li>
+<li>For Typescript users (like me) this gets a bit more complicated. Typescript will not know about <code>field.datePicker()</code> until we tell the compiler about it. Since types always need to be known at compile time, this part can’t be handled by the library itself.</li>
+</ul>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">import</span> <span class="token punctuation">{</span> RawField <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"react-fluent-form"</span><span class="token punctuation">;</span>
+
+<span class="token keyword">declare</span> <span class="token keyword">module</span> <span class="token string">"react-fluent-form"</span> <span class="token punctuation">{</span>
+  <span class="token keyword">interface</span> <span class="token class-name">FieldCreator</span> <span class="token punctuation">{</span>
+    datePicker<span class="token punctuation">:</span> <span class="token punctuation">(</span>initialValue<span class="token operator">?</span><span class="token punctuation">:</span> DateValue<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> RawField<span class="token operator">&lt;</span>DateValue<span class="token punctuation">,</span> <span class="token string">"selected"</span><span class="token operator">></span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">// add more custom fields here</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>For customization of configurable/complex fields please have a look at <a href="https://www.react-fluent-form.com/docs/getting-started/customization/#adding-custom-fields" target="_blank" rel="noopener">official <code>react-fluent-form</code> docs</a>.</p>
+<h3 id="Customizing-validation"><a href="#Customizing-validation" class="headerlink" title="Customizing validation"></a>Customizing validation</h3><p>Equally to form state handling, form validation handling is really important topic on modern websites. So it’s important to have a flexible and easy to use validation approach.</p>
+<p>That’s why <code>react-fluent-form</code> makes validation customizable.<br>Instead of a <code>yup</code> schema you can also provide a function which receives:</p>
+<ul>
+<li>the current <code>value</code> of the to validate field</li>
+<li>the current <code>values</code> of the form</li>
+<li>the <code>context</code> object (we will see what that means later)</li>
+</ul>
+<p>If the validate function returns <strong>anything</strong> beside of <code>undefined</code> the validated field will be marked as invalid. Also the return value will be the error:</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">const</span> formConfig <span class="token operator">=</span> createForm<span class="token operator">&lt;</span>RegistrationForm<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  username<span class="token punctuation">:</span> field<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token string">"user0"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  dateOfBirth<span class="token punctuation">:</span> field<span class="token punctuation">.</span><span class="token function">datePicker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  password<span class="token punctuation">:</span> field<span class="token punctuation">.</span><span class="token function">password</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">validateOnSubmitOnly</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withValidation</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// ...</span>
+  password<span class="token punctuation">:</span> <span class="token punctuation">(</span>value<span class="token punctuation">,</span> values<span class="token punctuation">,</span> context<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+     <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>value<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token string">"password is mandatory"</span><span class="token punctuation">;</span>
+     <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>value<span class="token punctuation">.</span>length <span class="token operator">&lt;</span> <span class="token number">8</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token string">"password must be 8 characters long"</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>We could possibly return very complex objects here to add more details to the error itself (and it will be typesafe!).</p>
+<p>If we return a <code>yup</code> schema though, it will be a special case:</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token keyword">const</span> formConfig <span class="token operator">=</span> createForm<span class="token operator">&lt;</span>RegistrationForm<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  username<span class="token punctuation">:</span> field<span class="token punctuation">.</span><span class="token function">text</span><span class="token punctuation">(</span><span class="token string">"user0"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  dateOfBirth<span class="token punctuation">:</span> field<span class="token punctuation">.</span><span class="token function">datePicker</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  password<span class="token punctuation">:</span> field<span class="token punctuation">.</span><span class="token function">password</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">validateOnSubmitOnly</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withValidation</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// ...</span>
+  <span class="token comment" spellcheck="true">// we just destructured username from values object so it looks a bit cleaner!</span>
+  password<span class="token punctuation">:</span> <span class="token punctuation">(</span>value<span class="token punctuation">,</span> <span class="token punctuation">{</span> username <span class="token punctuation">}</span><span class="token punctuation">,</span> context<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+     <span class="token keyword">if</span><span class="token punctuation">(</span>username <span class="token operator">&amp;&amp;</span> value<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span>username<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+       <span class="token comment" spellcheck="true">/**
+        * It's an array since yup schema below will
+        * also result in a error of type string[]
+        * So it's easier to handle errors 
+        * if they all have the same type
+        */</span>
+       <span class="token keyword">return</span> <span class="token punctuation">[</span><span class="token string">"password can't contain username"</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+     <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+       <span class="token keyword">return</span> yup<span class="token punctuation">.</span><span class="token keyword">string</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">required</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">min</span><span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>I think you already know what’s happening here. When we return a <code>yup</code> schema in a validate function it will not be treated as the error type, it will evaluate the the schema instead, so the error type will be <code>string[]</code>. And we actually just implemented <strong>conditional validation</strong>! Password is now validated based on the username field.</p>
+<p>But whats about fields outside of the form? That’s exactly why we have <strong>validation context</strong>. The initial context can be set via config while you can adapt the context at any time with <code>setContext</code> returned by <code>useFluentForm</code>.<br>The validation context needs to be <strong>any object</strong>, so it can not be a plain number or a string.</p>
+<p>Let’s assume that we have a country select which is outside of our registration form. The current country will be passed to the <code>RegistrationForm</code> component via props. Dependent on the selected country the minimum age for the <code>Date of Birth</code> field will vary (for USA 16, for the rest 18):</p>
+<pre class=" language-jsx"><code class="language-jsx"><span class="token keyword">interface</span> <span class="token class-name">RegistrationFormProps</span> <span class="token punctuation">{</span>
+  country<span class="token punctuation">:</span> string<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">const</span> formConfig <span class="token operator">=</span> createForm<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>RegistrationForm</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">/* fields.. */</span><span class="token punctuation">}</span>
+<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">withContext</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  country<span class="token punctuation">:</span> <span class="token string">"USA"</span><span class="token punctuation">,</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> RegistrationForm<span class="token punctuation">:</span> React<span class="token punctuation">.</span>FC<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>RegistrationFormProps</span><span class="token punctuation">></span></span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>country<span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> setContext <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">useFluentForm</span><span class="token punctuation">(</span>formConfig<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">setContext</span><span class="token punctuation">(</span><span class="token punctuation">{</span> country <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>country<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment" spellcheck="true">//...</span>
+<span class="token punctuation">}</span></code></pre>
+<p>As we can see it’s pretty easy to update the context when it changes with <code>useEffect</code>. Now we can implement conditional validation based on the current context value:</p>
+<pre class=" language-ts"><code class="language-ts"><span class="token comment" spellcheck="true">// using validate function </span>
+formConfing<span class="token punctuation">.</span><span class="token function">withValidation</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  dateOfBirth<span class="token punctuation">:</span> <span class="token punctuation">(</span>value<span class="token punctuation">,</span> values<span class="token punctuation">,</span> <span class="token punctuation">{</span> country <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>country <span class="token operator">===</span> <span class="token string">"USA"</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> yup<span class="token punctuation">.</span><span class="token function">date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">required</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>yearsBack16<span class="token punctuation">,</span> <span class="token string">"you must be at least 16"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> yup<span class="token punctuation">.</span><span class="token function">date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">required</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>yearsBack18<span class="token punctuation">,</span> <span class="token string">"you must be at least 18"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// using yup</span>
+formConfing<span class="token punctuation">.</span><span class="token function">withValidation</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  dateOfBirth<span class="token punctuation">:</span> yup<span class="token punctuation">.</span><span class="token function">date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">when</span><span class="token punctuation">(</span><span class="token string">"$country"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    is<span class="token punctuation">:</span> <span class="token string">"USA"</span><span class="token punctuation">,</span>
+    then<span class="token punctuation">:</span> yup<span class="token punctuation">.</span><span class="token function">date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">required</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>yearsBack16<span class="token punctuation">,</span> <span class="token string">"you must be at least 16"</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    otherwise<span class="token punctuation">:</span> yup<span class="token punctuation">.</span><span class="token function">date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">required</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">max</span><span class="token punctuation">(</span>yearsBack18<span class="token punctuation">,</span> <span class="token string">"you must be at least 18"</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>For customization of the validator please have a look at <a href="https://www.react-fluent-form.com/docs/getting-started/customization/#adding-custom-validator" target="_blank" rel="noopener">official <code>react-fluent-form</code> docs</a>.</p>
+<h2 id="Play-around-and-see-how-it-works"><a href="#Play-around-and-see-how-it-works" class="headerlink" title="Play around and see how it works!"></a>Play around and see how it works!</h2><p>Following code sandbox contains the implementation of the previous examples in typescript! Just check it out:</p>
+<iframe
+     src="https://codesandbox.io/embed/practical-hertz-pgcxl?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="practical-hertz-pgcxl"
+     allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
+     sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
+></iframe>
+
+<p>If you are not clear with something or you want to know about other features like  <strong>form arrays</strong> just checkout the <a href="https://www.react-fluent-form.com/" target="_blank" rel="noopener">official <code>react-fluent-form</code> docs</a></p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>There a lot of form libraries out there and I simply tried to put all the good approached I observed so far in one library. You saw the things through my eyes and I’m sure you will totally agree on some points, but also totally disagree on others. And that’s okay! I’m always open for constructive feedback, so feel free to <a href="https://github.com/ysfaran/react-fluent-form/issues" target="_blank" rel="noopener">file an issue or improvement on GitHub</a>!</p>
+<p><strong>Every contribution is welcome!</strong></p>
+
+      <br />
+      <p class="meta">
+        
+
+<a href="/blog/tags/react/"> <i class="fas fa-tags"></i>
+    react </a>
+
+<a href="/blog/tags/webdev/"> <i class="fas fa-tags"></i>
+    webdev </a>
+
+<a href="/blog/tags/react-hooks/"> <i class="fas fa-tags"></i>
+    react-hooks </a>
+
+<a href="/blog/tags/forms/"> <i class="fas fa-tags"></i>
+    forms </a>
+
+<a href="/blog/tags/typescript/"> <i class="fas fa-tags"></i>
+    typescript </a>
+
+      </p>
+    </div>
+
+    <div class="col-sm-3">
+       
+<span><b> I&#39;m Yusuf Aran,</b></span>
+<p>
+	not more than a passionate developer. See the footer for information about my person or to contact me!
+</p>
+<hr />
+
+ 
+
+<span
+	><a href="https://twitter.com/ysfaran15" target="_blank" rel="noopener"
+		><b
+			><i class="fab fa-twitter-square"></i>
+			<i class="fas fa-at"></i>
+			ysfaran15</b
+		></a
+	></span
+>
+<br />
+<a class="twitter-timeline" data-height="800" data-dnt="true" data-chrome="nofooter transparent noheader noborders " href="https://twitter.com/ysfaran15?ref_src=twsrc%5Etfw" target="_blank" rel="noopener"></a>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+    </div>
+  </div>
+</div>
+<!-- Menu fade on scroll -->
+<script>
+  var isScrolling;
+  var prevScrollpos = window.pageYOffset;
+  window.addEventListener(
+    "scroll",
+    function(event) {
+      window.clearTimeout(isScrolling);
+      isScrolling = setTimeout(function() {
+        var currentScrollPos = window.pageYOffset;
+        if (prevScrollpos > currentScrollPos) {
+          $("#navbar").slideDown();
+        } else {
+          $("#navbar").slideUp();
+        }
+        prevScrollpos = currentScrollPos;
+      }, 66);
+    },
+    false
+  );
+</script>
+
+
+
+<a class="float-right gradient btn paginationbtn" href="/blog/post/0002-use-state-with-promise/"><i class="fas fa-chevron-right"></i></a>
+
+    </main>
+    <!-- Footer -->
+    <footer class="page-footer">
+  <div class="container">
+    <div class="social-icons">
+      
+      <a href="https://github.com/ysfaran/" title="my GitHub" target="_blank" rel="noopener" class="fab fa-github"></a>
+      
+      <a href="https://twitter.com/ysfaran15" title="my twitter" target="_blank" rel="noopener" class="fab fa-twitter"></a>
+      
+      <a href="mailto:yusuf.aran@outlook.de" title="contact me" target="_blank" rel="noopener" class="fas fa-envelope"></a>
+      
+    </div>
+  </div>
+</footer>
+    <!-- After footer scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+  </body>
+</html>
