@@ -277,7 +277,7 @@ declare module "react-fluent-form" {
 }
 ```
 
-For customization of configurable/complex fields please have a look at [official `react-fluent-form` docs](https://ysfaran.github.io/react-fluent-form-docs/docs/getting-started/customization/#adding-custom-fields).
+For customization of configurable/complex fields please have a look at [official `react-fluent-form` docs](https://www.react-fluent-form.com/docs/getting-started/customization/#adding-custom-fields).
 
 ### Customizing validation
 
@@ -385,7 +385,7 @@ formConfing.withValidation({
 });
 ```
 
-For customization of the validator please have a look at [official `react-fluent-form` docs](https://ysfaran.github.io/react-fluent-form-docs/docs/getting-started/customization/#adding-custom-validator).
+For customization of the validator please have a look at [official `react-fluent-form` docs](https://www.react-fluent-form.com/docs/getting-started/customization/#adding-custom-validator).
 
 ## Play around and see how it works!
 
@@ -399,7 +399,7 @@ Following code sandbox contains the implementation of the previous examples in t
      sandbox="allow-modals allow-forms allow-popups allow-scripts allow-same-origin"
 ></iframe>
 
-If you are not clear with something or you want to know about other features like  **form arrays** just checkout the [official `react-fluent-form` docs](https://ysfaran.github.io/react-fluent-form-docs/)
+If you are not clear with something or you want to know about other features like  **form arrays** just checkout the [official `react-fluent-form` docs](https://www.react-fluent-form.com/)
 
 ## Conclusion
 
