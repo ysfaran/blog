@@ -9,7 +9,7 @@ const config = {
   title: "ysfaran's blog",
   tagline: "My humble blog",
   url: "https://ysfaran.github.io/",
-  baseUrl: "/",
+  baseUrl: "/blog/",
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
