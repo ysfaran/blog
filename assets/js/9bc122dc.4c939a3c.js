@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkysfaran_blog=self.webpackChunkysfaran_blog||[]).push([[256],{92:function(s){s.exports=JSON.parse('{"allTagsPath":"/tags","slug":"/tags/forms","name":"forms","count":1,"permalink":"/tags/forms"}')}}]);

@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkysfaran_blog=self.webpackChunkysfaran_blog||[]).push([[337],{3331:function(s){s.exports=JSON.parse('{"allTagsPath":"/tags","slug":"/tags/typescript","name":"typescript","count":2,"permalink":"/tags/typescript"}')}}]);

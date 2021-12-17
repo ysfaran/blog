@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://ysfaran.github.io/</id>
+    <id>https://ysfaran.github.io/blog/</id>
     <title>ysfaran's blog Blog</title>
     <updated>2021-12-17T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://ysfaran.github.io/"/>
+    <link rel="alternate" href="https://ysfaran.github.io/blog/"/>
     <subtitle>ysfaran's blog Blog</subtitle>
-    <icon>https://ysfaran.github.io/img/favicon.ico</icon>
+    <icon>https://ysfaran.github.io/blog/img/favicon.ico</icon>
     <entry>
         <title type="html"><![CDATA[Welcome]]></title>
         <id>/welcome</id>
-        <link href="https://ysfaran.github.io/welcome"/>
+        <link href="https://ysfaran.github.io/blog/welcome"/>
         <updated>2021-12-17T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[This is Me!]]></summary>
         <content type="html"><![CDATA[<h2>This is Me!</h2><p>:::info TL;DR;
@@ -43,7 +43,7 @@ I never jump to conclusions without taking my time to research properly.</p><p>I
     <entry>
         <title type="html"><![CDATA[useStateWithPromise: a custom hook to await state updates of useState]]></title>
         <id>/2020/04/06/await-use-state</id>
-        <link href="https://ysfaran.github.io/2020/04/06/await-use-state"/>
+        <link href="https://ysfaran.github.io/blog/2020/04/06/await-use-state"/>
         <updated>2020-04-06T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[await useState illustration]]></summary>
         <content type="html"><![CDATA[<p><img src="./await-use-state.png" alt="await useState illustration"/></p><h2>The Problem</h2><p>The general problem is that we want to wait for a state update an then do something afterwards. Unfortunatly we can not write sequential code, because every state update is asynchronous.
@@ -291,7 +291,7 @@ But what happens if the filter logic gets much more complicated and we want to e
     <entry>
         <title type="html"><![CDATA[react-fluent-form: How to write forms with validation in few steps]]></title>
         <id>/2020/03/26/react-fluent-form</id>
-        <link href="https://ysfaran.github.io/2020/03/26/react-fluent-form"/>
+        <link href="https://ysfaran.github.io/blog/2020/03/26/react-fluent-form"/>
         <updated>2020-03-26T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[react-fluent-form logo]]></summary>
         <content type="html"><![CDATA[<p><img src="./react-fluent-form-logo.svg" alt="react-fluent-form logo"/></p><h2>Background</h2><p>Maybe you know how complicated react state handling for forms - including validation - can be and you already researched for a library that fits to your use case. To make things more complicated we often implement <strong>custom fields</strong> or use third party libraries like <a href="https://www.npmjs.com/package/react-select">react-select</a>.</p><p>I was not satisfied (at least not 100%) with any solution on npm so I developed a form library myself:</p><p><a href="https://github.com/ysfaran/react-fluent-form"><img src="https://gh-card.dev/repos/ysfaran/react-fluent-form.svg" alt="ysfaran/react-fluent-form - GitHub"/></a></p><p><strong><em>Why are you not satisfied with existing solutions?</em></strong></p><p>:::caution DISCLAIMER</p><p>Of course every library has its up- and downsides (also mine..) and there are for sure great form libraries out there! But I just want to highlight the topics that annoyed me personally.</p><p>:::</p><ul><li>The libraries I found and also used in some of my projects were <strong>not intuitive</strong> enough. I&#x27;m a simple guy who wants a simple API!</li><li>Some libraries came with a lot of <strong>boilerplate code</strong>.</li><li>I used <strong>a lot of custom fields</strong> and all libraries forced me to something I didn&#x27;t like (e.g. wrap my custom field in another component) or didn&#x27;t support customization in the level I would like it.</li><li>Many libraries had <strong>no easy-to-use validation</strong> approach.</li><li><strong>Missing features</strong> like form arrays.</li></ul><p><strong><em>Why is react-fluent-form satisfying your needs?</em></strong></p><ul><li>It (hopefully) provides a <strong>more intuitive fluent API</strong>.</li><li>It comes with a <strong>easy-to-use validation</strong> approach using <a href="https://www.npmjs.com/package/yup">yup</a> schemes. If you don&#x27;t like <code>yup</code>, you can also write your <strong>custom validator</strong>!</li><li>Customization is made fairly easy, because you can add as many <strong>reusable custom fields</strong> as required, <strong>without touching any component</strong>.</li><li>It <strong>reduces boilerplate code</strong> by enabling a simple API.</li></ul><h2>Stop talking. Let&#x27;s code!</h2><p>Talking is good, showing is better! The next section will go step by step through the creation proccess of a form using <code>react-fluent-form</code>.</p><h3>1. Configuring the form</h3><p>The heart of <code>react-fluent-form</code> is the form config since it&#x27;s the part of it that actually provides the <em>fluent</em> API:</p><p>:::info NOTE

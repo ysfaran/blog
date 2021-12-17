@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkysfaran_blog=self.webpackChunkysfaran_blog||[]).push([[692],{8427:function(a){a.exports=JSON.parse('{"allTagsPath":"/tags","slug":"/tags/react-hooks","name":"react-hooks","count":2,"permalink":"/tags/react-hooks"}')}}]);

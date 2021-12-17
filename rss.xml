@@ -2,14 +2,14 @@
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
     <channel>
         <title>ysfaran's blog Blog</title>
-        <link>https://ysfaran.github.io/</link>
+        <link>https://ysfaran.github.io/blog/</link>
         <description>ysfaran's blog Blog</description>
         <lastBuildDate>Fri, 17 Dec 2021 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[Welcome]]></title>
-            <link>https://ysfaran.github.io/welcome</link>
+            <link>https://ysfaran.github.io/blog/welcome</link>
             <guid>/welcome</guid>
             <pubDate>Fri, 17 Dec 2021 00:00:00 GMT</pubDate>
             <description><![CDATA[This is Me!]]></description>
@@ -38,7 +38,7 @@ I never jump to conclusions without taking my time to research properly.</p><p>I
         </item>
         <item>
             <title><![CDATA[useStateWithPromise: a custom hook to await state updates of useState]]></title>
-            <link>https://ysfaran.github.io/2020/04/06/await-use-state</link>
+            <link>https://ysfaran.github.io/blog/2020/04/06/await-use-state</link>
             <guid>/2020/04/06/await-use-state</guid>
             <pubDate>Mon, 06 Apr 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[await useState illustration]]></description>
@@ -282,7 +282,7 @@ But what happens if the filter logic gets much more complicated and we want to e
         </item>
         <item>
             <title><![CDATA[react-fluent-form: How to write forms with validation in few steps]]></title>
-            <link>https://ysfaran.github.io/2020/03/26/react-fluent-form</link>
+            <link>https://ysfaran.github.io/blog/2020/03/26/react-fluent-form</link>
             <guid>/2020/03/26/react-fluent-form</guid>
             <pubDate>Thu, 26 Mar 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[react-fluent-form logo]]></description>
