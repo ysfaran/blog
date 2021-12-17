@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>ysfaran's blog Blog</title>
+        <link>https://ysfaran.github.io/</link>
+        <description>ysfaran's blog Blog</description>
+        <lastBuildDate>Fri, 17 Dec 2021 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[Welcome]]></title>
+            <link>https://ysfaran.github.io/welcome</link>
+            <guid>/welcome</guid>
+            <pubDate>Fri, 17 Dec 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[This is Me!]]></description>
+            <content:encoded><![CDATA[<h2>This is Me!</h2><p>:::info TL;DR;
+I&#x27;m a passionate full-stack developer with strong focus on backend.
+:::</p><p>My journey started in school, where I had my first contact with programming.
+Since then it was clear that I&#x27;m going to study computer science.</p><p>After I got my bachelor degree I immediately started working at an IT consulting company.
+Among programming languages like <code>C#</code> and <code>Python</code>, I really got to know frontend technologies in depth, especially <code>React</code>,
+and also my beloved <code>TypeScript</code>.<br/>
+<!-- -->Setting up new projects and migrating legacy code helped myself immensely to consolidate my knowledge.
+Since my drive to write modern software is huge, I immediately jumped on the <code>React</code> hooks train.
+Back then, there really was a lack of libraries supporting form handling with <code>React</code> hooks and I also didn&#x27;t like existing solutions at that point in time.
+So I took quite some efforts after work to develop my own form library: <a href="https://www.react-fluent-form.com/">react-fluent-form</a>.</p><p>While one part of me loved the new way of <code>React</code>, the other part always sought to go more into the direction of backend.
+In my next and current working place I started working with technologies like <code>Vue</code> quickly moving to setting up a test automation architecture using <code>Playwright</code> and finally to <code>Java</code> and <code>AWS</code> -
+all on top of a monorepository-microservice project setup.<br/>
+<!-- -->Regarding <code>AWS</code> I was already certified as a Cloud Practitioner in my first company and <code>Java</code> was the main programming language in university anyway.
+While I think that <code>Java</code> has its own benefits for me, it always felt like that it got into its years at some point (even with newer versions).
+Don&#x27;t get me wrong, I think <code>Java</code> has a great fit in the modern world, especially <code>Spring Boot</code>, but it never satisfied me personally.</p><p>For this reason, I always write my private projects in <code>TypeScript</code> + <code>Node.js</code>.
+If you utilize the type system of <code>TypeScript</code> properly, you are able to work very efficient while being very flexible at any time.
+Privately, I also moved from <code>REST</code>-like (I purposely say &quot;like&quot; because almost no one ever implemented REST as it was intended) API&#x27;s to <code>GraphQL</code>.<br/>
+<!-- -->Lately I really found myself in the world of cryptocurrencies again, where I also started few private projects.
+Since I like functional programming concepts a lot, one mainly being immutability, I&#x27;m also planning to get to know <code>Rust</code> much better in the future.</p><h2>About My Blog</h2><p>The main intention of my blog is to give something back to the great dev community around the globe.
+Be it Stack Overflow, Discord Channels or GitHub. But of course, this is also some kind of promotion for myself 😄.</p><p>By no means my blog posts are deeply researched like you would do it for elaborations in the university.
+What I can guarantee though is, that everything I write down is the best to my knowledge and belief (at that point in time).
+I never jump to conclusions without taking my time to research properly.</p><p>In the end, I hope to help people around the world, by being part and actively contributing to the community. Any constructive criticism is highly appreciated.</p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[useStateWithPromise: a custom hook to await state updates of useState]]></title>
+            <link>https://ysfaran.github.io/2020/04/06/await-use-state</link>
+            <guid>/2020/04/06/await-use-state</guid>
+            <pubDate>Mon, 06 Apr 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[await useState illustration]]></description>
+            <content:encoded><![CDATA[<p><img src="./await-use-state.png" alt="await useState illustration"/></p><h2>The Problem</h2><p>The general problem is that we want to wait for a state update an then do something afterwards. Unfortunatly we can not write sequential code, because every state update is asynchronous.
+In &quot;old&quot; react we could simply pass a callback. As an example we will look at a class component, that contains filters for an article list view:</p><pre><code class="language-jsx">class FilterSidebar extends React.Component {
+  constructor() {
+    this.state = {
+      filters: {},
+      articles: [],
+    };
+  }
+
+  fetchArticles = async () =&gt; {
+    const fetchedArticles = await API.getArticles(this.state.filters);
+    this.setState({ articles: fetchedArticles });
+  };
+
+  reset = () =&gt; {
+    this.setState({ filters: {} }, this.fetchArticles);
+  };
+
+  setColorFilter = (color) =&gt; {
+    this.setState((state) =&gt; ({ filters: { ...state.filters, color } }));
+  };
+
+  // more filters &amp; render ...
+}
+</code></pre><ul><li><code>fetchArticles</code>: fetch <code>articles</code> from an API service based on the <code>filters</code> in the state.</li><li><code>reset</code>: clear all <code>filters</code> and then fetch <code>articles</code>, by passing <code>fetchArticles</code> as callback to <code>setState</code>. This will guarantee that the state of <code>filters</code> is cleared before calling <code>fetchArticles</code></li><li><code>setColorFilter</code>: sets filter for <code>articles</code> to have a specific color (just an example to help your imagination!)</li></ul><p>Using functional components this would look a bit different:</p><pre><code class="language-jsx">const FiltersSidebar = () =&gt; {
+  const [articles, setArticles] = useState([]);
+  const [filters, setFilters] = useState({});
+
+  const fetchArticles = async () =&gt; {
+    const fetchedArticles = await API.getArticles(filters);
+    setArticles(fetchedArticles);
+  };
+
+  const reset = () =&gt; {
+    setFilters({});
+
+    // uuhh, ouhh .. fetchArticles will use old state of &quot;filters&quot;
+    fetchArticles();
+  };
+
+  const setColorFilter = (color) =&gt; {
+    setFilters((currentFilters) =&gt; ({ ...currentFilters, color }));
+  };
+
+  // more filters &amp; return ..
+};
+</code></pre><p>The problem here is that the setter, which is returned by <code>useState</code> (here <code>setFilters</code>), doesn&#x27;t allow us to pass a callback function as second argument. But in this case we can use <code>useEffect</code> and <code>useRef</code> to handle the problem:</p><pre><code class="language-jsx">const FiltersSidebar = () =&gt; {
+  const [articles, setArticles] = useState([]);
+  const [filters, setFilters] = useState({});
+  const resettingRef = useRef(false);
+
+  const fetchArticles = async () =&gt; {
+    const fetchedArticles = await API.getArticles(filters);
+    setArticles(fetchedArticles);
+  };
+
+  const reset = () =&gt; {
+    resettingRef.current = true;
+    setFilters({});
+  };
+
+  useEffect(() =&gt; {
+    if (resettingRef.current) {
+      resettingRef.current = false;
+      fetchArticles();
+    }
+  }, [filters]);
+
+  // ...
+};
+</code></pre><p>Okay, that looks a bit ugly but at least it works..
+But what happens if the filter logic gets much more complicated and we want to extract logic for filters in custom hooks:</p><pre><code class="language-jsx">const useStringFilter = (initialValue = &quot;&quot;) =&gt; {
+  const [value, setValue] = useState(initialValue);
+
+  // maybe more complex stuff here
+
+  const reset = () =&gt; {
+    setValue(initialValue);
+  };
+
+  return {
+    value,
+    setValue,
+    reset,
+  };
+};
+
+// and filters for other types like useDateFilter etc..
+</code></pre><p>Then our component could look like this:</p><pre><code class="language-jsx">const FiltersSidebar = () =&gt; {
+  const [articles, setArticles] = useState([]);
+
+  const colorFilter = useStringFilter();
+  const nameFilter = useStringFilter();
+  const releaseDateFilter = useDateFilter();
+
+  const fetchArticles = async () =&gt; {
+    const filters = {
+      color: colorFilter.value,
+      name: nameFilter.value,
+      releaseDate: releaseDateFilter.value,
+    };
+    const fetchedArticles = await API.getArticles(filters);
+    setArticles(fetchedArticles);
+  };
+
+  const reset = () =&gt; {
+    colorFilter.reset(); // will trigger a state update inside of useStringFilter
+    nameFilter.reset(); // will trigger a state update inside of useStringFilter
+    releaseDateFilter.reset(); // will trigger a state update inside of useDateFilter
+
+    // fetchArticles will use old state of colorFilter, nameFilter and releaseDateFilter
+    fetchArticles();
+  };
+
+  // ...
+};
+</code></pre><p><strong><em>What to do now?</em></strong><br/>
+<!-- -->There is no straightforward way when using <code>useEffect</code> and <code>useRef</code> anymore, because we need to wait for multiple state updates to be completed. And that exactly is the actual problem!</p><h2>The Solution</h2><p>With a custom hook - namely <code>useStateWithPromise</code> - this problem can be solved:</p><pre><code class="language-jsx">const useStateWithPromise = (initialState) =&gt; {
+  const [state, setState] = useState(initialState);
+  const resolverRef = useRef(null);
+
+  useEffect(() =&gt; {
+    if (resolverRef.current) {
+      resolverRef.current(state);
+      resolverRef.current = null;
+    }
+    /**
+     * Since a state update could be triggered with the exact same state again,
+     * it&#x27;s not enough to specify state as the only dependency of this useEffect.
+     * That&#x27;s why resolverRef.current is also a dependency, because it will guarantee,
+     * that handleSetState was called in previous render
+     */
+  }, [resolverRef.current, state]);
+
+  const handleSetState = useCallback(
+    (stateAction) =&gt; {
+      setState(stateAction);
+      return new Promise((resolve) =&gt; {
+        resolverRef.current = resolve;
+      });
+    },
+    [setState]
+  );
+
+  return [state, handleSetState];
+};
+</code></pre><p>It&#x27;s not important to fully understand this hook. But what you should understand is that <code>useStateWithPromise</code> returns, just like <code>useState</code>, a getter and setter with a small important difference:<br/>
+<strong>the setter returns a <code>Promise</code>, which we can <code>await</code>!</strong></p><p>Now we can replace the <code>useState</code> statements in our custom filter hooks with <code>useStateWithPromise</code>:</p><pre><code class="language-jsx">const useStringFilter = (initialValue = &quot;&quot;) =&gt; {
+  const [value, setValue] = useStateWithPromise(initialValue);
+
+  const reset = () =&gt; {
+    // this will return a promise containing the updated state
+    return setValue(initialValue);
+  };
+
+  return {
+    value,
+    setValue,
+    reset,
+  };
+};
+</code></pre><p>And then we can finally <code>await</code> state updates:</p><pre><code class="language-jsx">const FiltersSidebar = () =&gt; {
+  // ...
+
+  const reset = async () =&gt; {
+    // wait for all state updates to be completed
+    await Promise.all([
+      colorFilter.reset(),
+      nameFilter.reset(),
+      releaseDateFilter.reset(),
+    ]);
+
+    // fetchArticles will STILL use old state of colorFilter, nameFilter and releaseDateFilter
+    fetchArticles();
+  };
+
+  // ...
+};
+</code></pre><p>Well, that was a WT.. moment for me, but it makes sense if you really think about how functional components work.</p><p>Viewing the code from plain JavaScript side (without react) <strong><code>reset</code> is just a function inside of a function(al component)</strong>. So each time the function is called (in the react terms: the functions is <strong>rerendered</strong>), <strong><code>reset</code> will be a new function with a new reference</strong>. After we <code>await</code> the state updates of the filters with <code>Promise.all</code>, <code>reset</code> will still point to the exact same &quot;old&quot; <code>fetchArticles</code> reference, <strong>which is still pointing to &quot;old&quot; state</strong>! But in the meantime multiple state updates happend and there is much &quot;newer&quot; version of <code>reset</code> and also <code>fetchArticles</code>, <strong>which is pointing to the updated state</strong>.</p><p>{% asset_img rerendered-functions.png  rerendered functions example %}</p><p>With one additional state property, here <code>resetted</code>, this can be fixed:</p><pre><code class="language-jsx">const FiltersSidebar = () =&gt; {
+  // ...
+  const [resetted, setResetted] = useState(false);
+
+  useEffect(() =&gt; {
+    if (resetted) {
+      fetchArticles();
+      setResetted(false);
+    }
+  }, [resetted]);
+
+  const reset = async () =&gt; {
+    await Promise.all([
+      colorFilter.reset(),
+      nameFilter.reset(),
+      releaseDateFilter.reset(),
+    ]);
+
+    setResetted(true);
+  };
+
+  // ...
+};
+</code></pre><p>Now <code>setResetted(true)</code> will trigger a rerender of the component and it&#x27;s guaranteed that the <code>fetchArticles</code> call inside of the <code>useEffect</code> statement will use the latest state for the API call.</p><h2>The Solution ?</h2><p>When I implemented <code>useStateWithPromise</code> I really thought that&#x27;s the perfect solution and also questioned why there is no build-in solution for this in react? But after my WT.. moment I really understood why react didn&#x27;t include such functionality:</p><p><strong>It simply doesn&#x27;t fit to the general design of functional components!</strong></p><p>When you use class components, you work a lot with mutable references (e.g. <code>this.state</code> is reference that constantly gets updated by <code>this.setState</code> calls). But that&#x27;s an anti pattern for functional components, because here you always try to work with immutable data and there is a reason for that:</p><p><strong>Mutable references tend to cause unwanted side effects!</strong></p><p>If your state has a non-primitive type (e.g. an object or array) it&#x27;s recommended create new references instead of keeping the old one:</p><pre><code class="language-jsx">const MyComponent = () =&gt; {
+  const [immutableData, setImmutableData] = useState({ a: &quot;a&quot;, b: &quot;b&quot; });
+  let [mutableData, setMutableData] = useState({ a: &quot;a&quot;, b: &quot;b&quot; });
+
+  const setNewData = () =&gt; {
+    // good: new reference!
+    setImmutableData({ a: &quot;new a&quot;, b: &quot;new b&quot; });
+
+    // bad: same reference!
+    mutableData.a = &quot;new a&quot;;
+    mutableData.b = &quot;new b&quot;;
+    setMutableData(mutableData);
+  };
+
+  useEffect(() =&gt; {
+    console.log(&quot;immutable data changed&quot;);
+  }, [immutableData]);
+
+  // will never be called because mutableData will always have same reference
+  useEffect(() =&gt; {
+    console.log(&quot;mutable data changed&quot;);
+  }, [mutableData]);
+
+  return (
+    &lt;&gt;
+      &lt;ChildComponent data={immutableData} /&gt;
+      {/**
+       * changing mutableData without the state setter, (e.g. mutableData.a = &quot;new a&quot;)
+       * could cause unwanted side effects, because ChildComponent wouldn&#x27;t be rerendered,
+       * so e.g. no useEffect statements inside ChildComponent would be triggered
+       */}
+      &lt;ChildComponent data={mutableData} /&gt;
+    &lt;/&gt;
+  );
+};
+</code></pre><p>To come back to the example:</p><ul><li>each state update (e.g. <code>reset</code> of filter) causes a rerender</li><li>each rerender creates a new reference for <code>reset</code> and <code>fetchArticles</code></li><li>each <code>fetchArticles</code> reference will point to a different immutable state</li><li>after the <code>await</code> in <code>reset</code> the <code>fetchArticles</code> call will use &quot;old&quot; state, because it&#x27;s an &quot;old&quot; version of <code>fetchArticles</code></li></ul><p>So the general issue is that we have multiple <code>fetchArticles</code> versions (after each render) which all point to different states, because states in functional components are/should be immutable.</p><h2>Conclusion</h2><p>There is a reason why react didn&#x27;t implement this feature for functional components. If you have the time and the ability to (re-)build the architecture of your app, you should really think about using <code>useStateWithPromise</code>.</p><p>I used it once in production, but only because the time was limited and my customer didn&#x27;t want to spent to much time refactoring the code. For the next project I had a similiar problem but was able to switch the approach and solve this problem differently. E.g. in our example the actual problem was that we had multiple states in multiple hooks but could not reset them easily all at once (we needed to call <code>reset</code> on each filter). If the state of all filters would be in one place, it would be much easier to reset them all together. A different approach would be to store inital values in a ref so you it&#x27;s not even necessary to wait for the state to be updated.</p><p>As final conclusion: If you have the necessarity to <code>await</code> state updates in a manner like with <code>useStateWithPromise</code> you either have a non-ideal architechture, your requirments have changed or you have a really special case. 😉</p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[react-fluent-form: How to write forms with validation in few steps]]></title>
+            <link>https://ysfaran.github.io/2020/03/26/react-fluent-form</link>
+            <guid>/2020/03/26/react-fluent-form</guid>
+            <pubDate>Thu, 26 Mar 2020 00:00:00 GMT</pubDate>
+            <description><![CDATA[react-fluent-form logo]]></description>
+            <content:encoded><![CDATA[<p><img src="./react-fluent-form-logo.svg" alt="react-fluent-form logo"/></p><h2>Background</h2><p>Maybe you know how complicated react state handling for forms - including validation - can be and you already researched for a library that fits to your use case. To make things more complicated we often implement <strong>custom fields</strong> or use third party libraries like <a href="https://www.npmjs.com/package/react-select">react-select</a>.</p><p>I was not satisfied (at least not 100%) with any solution on npm so I developed a form library myself:</p><p><a href="https://github.com/ysfaran/react-fluent-form"><img src="https://gh-card.dev/repos/ysfaran/react-fluent-form.svg" alt="ysfaran/react-fluent-form - GitHub"/></a></p><p><strong><em>Why are you not satisfied with existing solutions?</em></strong></p><p>:::caution DISCLAIMER</p><p>Of course every library has its up- and downsides (also mine..) and there are for sure great form libraries out there! But I just want to highlight the topics that annoyed me personally.</p><p>:::</p><ul><li>The libraries I found and also used in some of my projects were <strong>not intuitive</strong> enough. I&#x27;m a simple guy who wants a simple API!</li><li>Some libraries came with a lot of <strong>boilerplate code</strong>.</li><li>I used <strong>a lot of custom fields</strong> and all libraries forced me to something I didn&#x27;t like (e.g. wrap my custom field in another component) or didn&#x27;t support customization in the level I would like it.</li><li>Many libraries had <strong>no easy-to-use validation</strong> approach.</li><li><strong>Missing features</strong> like form arrays.</li></ul><p><strong><em>Why is react-fluent-form satisfying your needs?</em></strong></p><ul><li>It (hopefully) provides a <strong>more intuitive fluent API</strong>.</li><li>It comes with a <strong>easy-to-use validation</strong> approach using <a href="https://www.npmjs.com/package/yup">yup</a> schemes. If you don&#x27;t like <code>yup</code>, you can also write your <strong>custom validator</strong>!</li><li>Customization is made fairly easy, because you can add as many <strong>reusable custom fields</strong> as required, <strong>without touching any component</strong>.</li><li>It <strong>reduces boilerplate code</strong> by enabling a simple API.</li></ul><h2>Stop talking. Let&#x27;s code!</h2><p>Talking is good, showing is better! The next section will go step by step through the creation proccess of a form using <code>react-fluent-form</code>.</p><h3>1. Configuring the form</h3><p>The heart of <code>react-fluent-form</code> is the form config since it&#x27;s the part of it that actually provides the <em>fluent</em> API:</p><p>:::info NOTE
+All code snippets will be in typescript, because the library is also written in typescript!
+:::</p><pre><code class="language-ts">import * as yup from &quot;yup&quot;;
+import { createForm, field } from &quot;react-fluent-form&quot;;
+
+interface RegistrationForm {
+  username: string;
+  password: string;
+}
+
+const formConfig = createForm&lt;RegistrationForm&gt;()({
+  username: field.text(&quot;user0&quot;),
+  password: field.password().validateOnSubmitOnly(),
+}).withValidation({
+  username: yup.string().required().min(4),
+  password: yup.string().required().min(8),
+});
+</code></pre><p><strong>STOP! Try to understand the code without ever seeing it before!</strong></p><p>Okay, so we just specified how our registration form will look like:</p><ul><li>It will have two input fields: Username and Password<ul><li>Username will have the default value <code>user0</code></li><li>Password will be an empty string</li><li>It will also trigger validation for Password only when a submit has been initiated. There are more validation triggers available but the default is <code>validateAfterTouchOnChange</code>, which means once the field lost focus it will be validated after each change.</li><li><code>field.text()</code> and <code>field.password()</code> actually represent the options for the <code>type</code> property of the HTML input element</li></ul></li><li>We added validation for each field using <code>yup</code> schemes. Those schemes perfectly fit into <code>react-fluent-form</code> since <code>yup</code> also provides a <em>fluent</em> API!<ul><li>Username is a required string and must have at least length of 4 characters</li><li>Password is required string and must have at least length of 8 characters</li></ul></li></ul><h3>2. Initializing the form</h3><p>Cool, we configured our form but that was just plain typescript, no react involved. <code>react-fluent-form</code> comes with a set of react hooks, but the most important one is <code>useFluentForm</code>:</p><pre><code class="language-jsx">const RegistrationForm = () =&gt; {
+  // We just used the config we created before and that&#x27;s all we need!
+  const { values, touched, validity, errors /* and more */ } =
+    useFluentForm(formConfig);
+
+  // ...
+};
+</code></pre><p>Among other things <code>useFluentForm</code> returns:</p><ul><li><strong><code>values</code></strong>: it&#x27;s an object that contains the current values entered to the form. In this example it would look like <code>{username: &quot;user0&quot;, password: &quot;&quot;}</code> in the beginning.</li><li><strong><code>touched</code></strong>: it&#x27;s an object that stores information about the touched state of each field. A field is <em>touched</em> once it had focus and then lost it, so from a technical perspective if the <code>onBlur</code> event of an input field was triggert. An example object could be <code>{username: true, password: undefined}</code> (<code>undefined</code> means it was not touched yet).</li><li><strong><code>validity</code></strong>: it&#x27;s an object that stores information about the validation state of each field. It could look like <code>{username: false, password: undefined}</code> (<code>undefined</code> means it was not validated yet).</li><li><strong><code>errors</code></strong>: it&#x27;s an object that contains the current errors of each field in the form. In case of an error the evaluation of <code>yup</code> schemes will result in a <code>string[]</code> type, so the errors object could look like <code>{username: [&quot;username is a required field&quot;], password: undefined }</code> (<code>undefined</code> means the field was not validated yet or that it&#x27;s valid).</li></ul><h3>3. Rendering the form</h3><p>We set up all logic, let&#x27;s start rendering our form now:</p><pre><code class="language-jsx">function RegistrationForm() {
+  const { values, fields, errors, handleSubmit } = useFluentForm(formConfig);
+
+  const handleSubmitSuccess = () =&gt; console.log(values);
+
+  const handleSubmitFailure = () =&gt; console.log(errors);
+
+  return (
+    &lt;form onSubmit={handleSubmit(handleSubmitSuccess, handleSubmitFailure)}&gt;
+      &lt;label&gt;
+        Username*:
+        &lt;input {...fields.username} /&gt;
+      &lt;/label&gt;
+      &lt;label&gt;
+        Password*:
+        &lt;input {...fields.password} /&gt;
+      &lt;/label&gt;
+      &lt;button type=&quot;submit&quot;&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+}
+</code></pre><p>And that&#x27;s it! But wait we have two new properties here:</p><ul><li><strong><code>fields</code></strong>: is an object that contains the props for the to render component. As you might remember <code>react-fluent-form</code> exports a <code>field</code> variable that allowed us to specify the type of the input field (e.g. <code>field.password()</code>). It supports every reasonable HTML input type like checkboxes or radio buttons and also the HTML elements <code>textarea</code> and <code>select</code>. So in our example <code>fields</code> would have following type:</li></ul><pre><code class="language-ts">{
+  username: {
+    type: &quot;text&quot;;
+    value: string;
+    onChange: (e: ChangeEvent&lt;HTMLInputElement&gt;) =&gt; void;
+    onBlur: () =&gt; void;
+  },
+  password: {
+    type: &quot;password&quot;;
+    value: string;
+    onChange: (e: ChangeEvent&lt;HTMLInputElement&gt;) =&gt; void;
+    onBlur: () =&gt; void;
+  },
+}
+</code></pre><ul><li><strong><code>handleSubmit</code></strong>: is a function that returns a callback for the form submission. Optionally it allows us to pass a <code>success</code> and <code>failure</code> callback, which are called dependent on the validation result of the whole form. If at least one field is invalid, <code>failure</code> will be called, otherwise <code>success</code>.</li></ul><h3>4. Displaying feedback messages</h3><p>This is actually not mandatory but it surly improves UX! For simple error displays you can just add a check on the errors object and display it if there is one:</p><pre><code class="language-jsx">const RegistrationForm = () =&gt; {
+  //...
+
+  return (
+    &lt;form onSubmit={handleSubmit(handleSubmitSuccess, handleSubmitFailure)}&gt;
+      &lt;label&gt;
+        Username*:
+        &lt;input {...fields.username} /&gt;
+        {errors.username &amp;&amp; &lt;div&gt; {errors.username[0]} &lt;/div&gt;}
+      &lt;/label&gt;
+      &lt;label&gt;
+        Password*:
+        &lt;input {...fields.password} /&gt;
+        {errors.password &amp;&amp; &lt;div&gt; {errors.password[0]} &lt;/div&gt;}
+      &lt;/label&gt;
+      &lt;button type=&quot;submit&quot;&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+  );
+};
+</code></pre><p>If the feedback process is more complex (e.g. you want to show if a field is valid, not just if it&#x27;s invalid) you can take advantage of information stored in <code>validity</code> and <code>touched</code>.
+I&#x27;m sure you will find a good solution for your needs!</p><h2>Customization</h2><p>So we talked a lot about a very simple form, but <strong>until here I would just hate my own library</strong>. <em>Why?</em> Because every project is different and every application has different requirements. It&#x27;s cool and very useful that standard HTML elements are supported, but when did you use a standard HTML <code>select</code> element or an standard HTML datepicker the last time? I mean they are very hard to customize (sometimes it&#x27;s not even possible) and they don&#x27;t support features mandatory for professional UX.</p><p>Okay, I calmed down. Let&#x27;s focus on the code again!</p><h3>Customizing fields</h3><p>For simple components like <a href="https://www.npmjs.com/package/react-datepicker"><code>react-datepicker</code></a> <code>react-fluent-form</code> provides <code>field.raw()</code>.</p><p><strong><em>What means simple component in this context?</em></strong></p><ul><li>it has <code>value</code>-like and a <code>onChange</code>-like prop</li><li><code>value</code> has the same type as the first parameter of <code>onChange</code> handler</li><li>it optionally has a <code>onBlur</code>-like prop to indicate when the field is touched</li></ul><p>*<!-- -->-like means it must not have the same name, but the same type. E.g. the <code>value</code> prop in <code>react-datepicker</code> is called <code>selected</code>.<br/>
+<!-- -->For raw fields it&#x27;s required to pass an initial value, otherwise it will be undefined:</p><pre><code class="language-jsx">type DateValue = Date | null;
+
+const formConfig = createForm()({
+  dateOfBirth: field.raw &lt; DateValue &gt; null.withValueProp(&quot;selected&quot;),
+});
+</code></pre><p>The type of <code>fields</code> object would look like this:</p><pre><code class="language-ts">type FieldsType = {
+  dateOfBirth: {
+    selected: Date | null;
+    onChange: (newValue: Date | null) =&gt; void;
+    onBlur: () =&gt; void; // will just set the &quot;touched&quot; state to true
+  };
+};
+</code></pre><p>On default <code>field.raw</code> will be mapped to properties <code>value</code>, <code>onChange</code> and <code>onBlur</code>. Names of these properties can easily be changed using <code>withValueProp</code> (as in the example), <code>withOnChangeProp</code> and <code>withOnBlurProp</code>.
+But, oh boy, I would not like to write</p><pre><code class="language-ts">field.raw&lt;DateValue&gt;(null).withValueProp(&quot;selected&quot;);
+</code></pre><p>each time I need a datepicker.</p><p>A simple approach is to wrap it in a function:</p><pre><code class="language-ts">const datePicker = (initialValue: DateValue = null) =&gt; {
+  return field.raw&lt;DateValue&gt;(initialValue).withValueProp(&quot;selected&quot;);
+};
+
+const formConfig = createForm()({
+  dateOfBirth: datePicker(),
+});
+</code></pre><p>But to me that looks kind of odd if put next to other fields:</p><pre><code class="language-ts">const formConfig = createForm&lt;RegistrationForm&gt;()({
+  username: field.text(&quot;user0&quot;),
+  dateOfBirth: datePicker(),
+  password: field.password().validateOnSubmitOnly(),
+});
+</code></pre><p>Ideally I would like to have <code>field.datePicker()</code> so it fits perfectly to the rest of the library. For this purpose <code>react-fluent-form</code> exports a utility function <code>addField</code>:</p><pre><code class="language-ts">import { addField, RawField, field } from &quot;react-fluent-form&quot;;
+
+addField(&quot;datePicker&quot;, (initialValue: DateValue = null) =&gt;
+  field.raw(initialValue).withValueProp(&quot;selected&quot;)
+);
+</code></pre><p>and then you can just use <code>field.datePicker()</code> anywhere you want!</p><p>But wait, there are few things to note down here:</p><ul><li><code>addField</code> needs to be called in a top level file, which means <code>addField</code> statements need to be executed before e.g. <code>field.datePicker()</code> is used somewhere.</li><li>For Typescript users (like me) this gets a bit more complicated. Typescript will not know about <code>field.datePicker()</code> until we tell the compiler about it. Since types always need to be known at compile time, this part can&#x27;t be handled by the library itself.</li></ul><pre><code class="language-ts">import { RawField } from &quot;react-fluent-form&quot;;
+
+declare module &quot;react-fluent-form&quot; {
+  interface FieldCreator {
+    datePicker: (initialValue?: DateValue) =&gt; RawField&lt;DateValue, &quot;selected&quot;&gt;;
+    // add more custom fields here
+  }
+}
+</code></pre><p>For customization of configurable/complex fields please have a look at <a href="https://www.react-fluent-form.com/docs/getting-started/customization/#adding-custom-fields">official <code>react-fluent-form</code> docs</a>.</p><h3>Customizing validation</h3><p>Equally to form state handling, form validation handling is really important topic on modern websites. So it&#x27;s important to have a flexible and easy to use validation approach.</p><p>That&#x27;s why <code>react-fluent-form</code> makes validation customizable.
+Instead of a <code>yup</code> schema you can also provide a function which receives:</p><ul><li>the current <code>value</code> of the to validate field</li><li>the current <code>values</code> of the form</li><li>the <code>context</code> object (we will see what that means later)</li></ul><p>If the validate function returns <strong>anything</strong> beside of <code>undefined</code> the validated field will be marked as invalid. Also the return value will be the error:</p><pre><code class="language-ts">const formConfig = createForm&lt;RegistrationForm&gt;()({
+  username: field.text(&quot;user0&quot;),
+  dateOfBirth: field.datePicker(),
+  password: field.password().validateOnSubmitOnly(),
+}).withValidation({
+  // ...
+  password: (value, values, context) =&gt; {
+    if (!value) return &quot;password is mandatory&quot;;
+    if (!value.length &lt; 8) return &quot;password must be 8 characters long&quot;;
+  },
+});
+</code></pre><p>We could possibly return very complex objects here to add more details to the error itself (and it will be typesafe!).</p><p>If we return a <code>yup</code> schema though, it will be a special case:</p><pre><code class="language-ts">const formConfig = createForm&lt;RegistrationForm&gt;()({
+  username: field.text(&quot;user0&quot;),
+  dateOfBirth: field.datePicker(),
+  password: field.password().validateOnSubmitOnly(),
+}).withValidation({
+  // ...
+  // we just destructured username from values object so it looks a bit cleaner!
+  password: (value, { username }, context) =&gt; {
+    if (username &amp;&amp; value.includes(username)) {
+      /**
+       * It&#x27;s an array since yup schema below will
+       * also result in a error of type string[]
+       * So it&#x27;s easier to handle errors
+       * if they all have the same type
+       */
+      return [&quot;password can&#x27;t contain username&quot;];
+    } else {
+      return yup.string().required().min(8);
+    }
+  },
+});
+</code></pre><p>I think you already know what&#x27;s happening here. When we return a <code>yup</code> schema in a validate function it will not be treated as the error type, it will evaluate the the schema instead, so the error type will be <code>string[]</code>. And we actually just implemented <strong>conditional validation</strong>! Password is now validated based on the username field.</p><p>But whats about fields outside of the form? That&#x27;s exactly why we have <strong>validation context</strong>. The initial context can be set via config while you can adapt the context at any time with <code>setContext</code> returned by <code>useFluentForm</code>.
+The validation context needs to be <strong>any object</strong>, so it can not be a plain number or a string.</p><p>Let&#x27;s assume that we have a country select which is outside of our registration form. The current country will be passed to the <code>RegistrationForm</code> component via props. Dependent on the selected country the minimum age for the <code>Date of Birth</code> field will vary (for USA 16, for the rest 18):</p><pre><code class="language-jsx">interface RegistrationFormProps {
+  country: string;
+}
+
+const formConfig = createForm&lt;RegistrationForm&gt;()({
+  /* fields.. */}
+).withContext({
+  country: &quot;USA&quot;,
+})
+
+const RegistrationForm: React.FC&lt;RegistrationFormProps&gt; = ({country}) =&gt; {
+  const { setContext } = useFluentForm(formConfig);
+
+  useEffect(() =&gt; setContext({ country }), [country]);
+
+  //...
+}
+</code></pre><p>As we can see it&#x27;s pretty easy to update the context when it changes with <code>useEffect</code>. Now we can implement conditional validation based on the current context value:</p><pre><code class="language-ts">// using validate function
+formConfing.withValidation({
+  dateOfBirth: (value, values, { country }) =&gt; {
+    if (country === &quot;USA&quot;) {
+      return yup.date().required().max(yearsBack16, &quot;you must be at least 16&quot;);
+    } else {
+      return yup.date().required().max(yearsBack18, &quot;you must be at least 18&quot;);
+    }
+  },
+});
+
+// using yup
+formConfing.withValidation({
+  dateOfBirth: yup.date().when(&quot;$country&quot;, {
+    is: &quot;USA&quot;,
+    then: yup.date().required().max(yearsBack16, &quot;you must be at least 16&quot;),
+    otherwise: yup
+      .date()
+      .required()
+      .max(yearsBack18, &quot;you must be at least 18&quot;),
+  }),
+});
+</code></pre><p>For customization of the validator please have a look at <a href="https://www.react-fluent-form.com/docs/getting-started/customization/#adding-custom-validator">official <code>react-fluent-form</code> docs</a>.</p><h2>Play around and see how it works!</h2><p>Following code sandbox contains the implementation of the previous examples in typescript! Just check it out:</p><p>If you are not clear with something or you want to know about other features like <strong>form arrays</strong> just checkout the <a href="https://www.react-fluent-form.com/">official <code>react-fluent-form</code> docs</a></p><h2>Conclusion</h2><p>There a lot of form libraries out there and I simply tried to put all the good approached I observed so far in one library. You saw the things through my eyes and I&#x27;m sure you will totally agree on some points, but also totally disagree on others. And that&#x27;s okay! I&#x27;m always open for constructive feedback, so feel free to <a href="https://github.com/ysfaran/react-fluent-form/issues">file an issue or improvement on GitHub</a>!</p><p><strong>Every contribution is welcome!</strong></p>]]></content:encoded>
+        </item>
+    </channel>
+</rss>
