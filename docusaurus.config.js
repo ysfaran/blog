@@ -88,6 +88,19 @@ const config = {
               },
             ],
           },
+          {
+            title: "Contact",
+            items: [
+              {
+                label: "Mail",
+                href: "mailto:yusuf.aran@outlook.de",
+              },
+              {
+                label: "Twitter",
+                href: "https://twitter.com/ysfaran15",
+              },
+            ],
+          },
         ],
         copyright: `Copyright © ${new Date().getFullYear()} ysfaran's Blog, Inc. Built with Docusaurus.`,
       },
