@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkysfaran_blog=self.webpackChunkysfaran_blog||[]).push([[181],{6001:function(a){a.exports=JSON.parse('{"allTagsPath":"/blog/tags","slug":"/blog/tags/webdev","name":"webdev","count":2,"permalink":"/blog/tags/webdev"}')}}]);
