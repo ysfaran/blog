@@ -34,6 +34,7 @@ const config = {
           showReadingTime: true,
           blogSidebarTitle: "All posts",
           blogSidebarCount: "ALL",
+          postsPerPage: 1,
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -91,6 +92,10 @@ const config = {
           {
             title: "Contact",
             items: [
+              {
+                label: "Chat with Me",
+                href: "https://github.com/ysfaran/chat-with-me",
+              },
               {
                 label: "Mail",
                 href: "mailto:yusuf.aran@outlook.de",
