@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkysfaran_blog=self.webpackChunkysfaran_blog||[]).push([[5237],{2483:e=>{e.exports=JSON.parse('{"permalink":"/blog/tags/typescript/page/3","page":3,"postsPerPage":1,"totalPages":3,"totalCount":3,"previousPage":"/blog/tags/typescript/page/2","blogDescription":"Blog","blogTitle":"Blog"}')}}]);

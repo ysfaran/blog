@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkysfaran_blog=self.webpackChunkysfaran_blog||[]).push([[5884],{2277:a=>{a.exports=JSON.parse('{"label":"ci-cd","permalink":"/blog/tags/ci-cd","allTagsPath":"/blog/tags","count":1}')}}]);

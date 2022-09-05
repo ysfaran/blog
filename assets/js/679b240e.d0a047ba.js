@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkysfaran_blog=self.webpackChunkysfaran_blog||[]).push([[6666],{5282:a=>{a.exports=JSON.parse('{"permalink":"/blog/tags/react-hooks","page":1,"postsPerPage":1,"totalPages":2,"totalCount":2,"nextPage":"/blog/tags/react-hooks/page/2","blogDescription":"Blog","blogTitle":"Blog"}')}}]);

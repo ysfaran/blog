@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkysfaran_blog=self.webpackChunkysfaran_blog||[]).push([[314],{1614:a=>{a.exports=JSON.parse('{"label":"playwright","permalink":"/blog/tags/playwright","allTagsPath":"/blog/tags","count":1}')}}]);
